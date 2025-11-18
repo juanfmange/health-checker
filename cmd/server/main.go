@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/juanfmange/health-checker/internal/config"
-	handlers "github.com/juanfmange/health-checker/internal/handler"
+	"github.com/juanfmange/health-checker/internal/handlers"
 )
 
 func main() {
