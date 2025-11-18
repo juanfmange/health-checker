@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/juanfmange/health-checker/health-checker/internal/config"
 	"github.com/juanfmange/health-checker/internal/checker"
-	"github.com/juanfmange/health-checker/internal/config"
 )
 
 func HealthHandler(cfg config.Config) http.HandlerFunc {
