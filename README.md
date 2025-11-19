@@ -1,1 +1,21 @@
 # health-checker
+
+
+## Ejemplo de .env
+
+PORT=0000
+
+SERVICES=n
+
+SERVICE_n1_NAME=name
+SERVICE_n1_PROTOCOL=https
+SERVICE_n1_HOST=url
+SERVICE_n1_PATH=/path
+SERVICE_n1_TIMEOUT=00
+
+
+SERVICE_n2_NAME=name
+SERVICE_n2_PROTOCOL=https
+SERVICE_n2_HOST=url
+SERVICE_n2_PATH=/path
+SERVICE_n2_TIMEOUT=00
