@@ -6,13 +6,18 @@ import (
 
 	"github.com/juanfmange/health-checker/internal/config"
 	"github.com/juanfmange/health-checker/internal/handlers"
+	"github.com/juanfmange/health-checker/internal/middleware"
 )
 
 func main() {
 	cfg := config.LoadConfig()
 
-	http.HandleFunc("/health-check", handlers.HealthHandler(cfg))
+	mux := http.NewServeMux()
+	mux.HandleFunc("/health", handlers.HealthHandler(cfg))
+
+	// Wrap your mux with CORS middleware
+	handlerWithMiddleware := middleware.CORS(mux)
 
 	log.Printf("Server running on port %s", cfg.Port)
-	log.Fatal(http.ListenAndServe(":"+cfg.Port, nil))
+	log.Fatal(http.ListenAndServe(":"+cfg.Port, handlerWithMiddleware))
 }
