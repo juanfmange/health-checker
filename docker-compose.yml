@@ -1,0 +1,12 @@
+services:
+  health-checker:
+    image: health-checker:latest
+    container_name: health-checker
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
