@@ -1,0 +1,57 @@
+stages:
+  - lint
+  - test
+  - build
+  - release
+
+variables:
+  GO_VERSION: "1.22"
+  CGO_ENABLED: "0"
+  GOPATH: "$CI_PROJECT_DIR/go"
+
+# Imagen base con Go
+image: golang:${GO_VERSION}-alpine
+
+before_script:
+  - apk add --no-cache git
+  - go mod download
+
+# --------- LINT ---------
+golangci-lint:
+  stage: lint
+  image: golangci/golangci-lint:latest-alpine
+  script:
+    - golangci-lint run ./...
+  only:
+    - merge_requests
+    - main
+
+# --------- TEST ---------
+unit-test:
+  stage: test
+  script:
+    - go test ./... -v
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
+
+# --------- BUILD ---------
+build:
+  stage: build
+  script:
+    - go build -o app ./...
+  artifacts:
+    paths:
+      - app
+
+# --------- RELEASE (SOLO EN TAGS) ---------
+release:
+  stage: release
+  script:
+    - go build -o app-${CI_COMMIT_TAG} ./...
+  artifacts:
+    paths:
+      - app-${CI_COMMIT_TAG}
+  only:
+    - tags
